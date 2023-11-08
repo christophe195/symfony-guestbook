@@ -27,6 +27,11 @@ class Conference
     #[ORM\OneToMany(mappedBy: 'conference', targetEntity: Comment::class, orphanRemoval: true)]
     private Collection $comments;
 
+    public function __toString(): string
+    {
+        return $this->city.' '.$this->year;
+    }
+
     public function __construct()
     {
         $this->comments = new ArrayCollection();
