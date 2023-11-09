@@ -34,8 +34,9 @@ web:
             passthru: "/index.php"
 
 mounts:
-    "/var": { source: local, source_path: var }
-    
+    "/var": { source: local, source_path: var },
+    "/public/uploads": { source: service, service: files, source_path: uploads }
+
 
 relationships:
     database: "database:postgresql"
