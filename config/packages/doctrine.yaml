@@ -6,6 +6,8 @@ doctrine:
         # either here or in the DATABASE_URL env var (see .env file)
         #server_version: '15'
         schema_filter: ~^(?!session)~
+        # "TEST_TOKEN" is typically set by ParaTest
+        dbname_suffix: '_test%env(default::TEST_TOKEN)%'
 
         profiling_collect_backtrace: '%kernel.debug%'
     orm:
