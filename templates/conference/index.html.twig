@@ -29,4 +29,18 @@
             {% endfor %}
         </div>
     {% endfor %}
+
+    {% if blogposts %}
+        <h2>Blogposts</h2>
+        <ul>
+            {% for blogpost in blogposts %}
+                <li>
+                    <a href="{{ path('blogpost', { slug: blogpost.slug }) }}">
+                        {{ blogpost.creationDate | date('d-m-Y h:i')  }} - {{ blogpost.title }}
+                    </a>
+                </li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+
 {% endblock %}

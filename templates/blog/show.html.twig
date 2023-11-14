@@ -1,0 +1,16 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Conference Guestbook - {{ blogpost }}{% endblock %}
+
+{% block body %}
+    <h2 class="mb-5">
+        {{ blogpost.creationDate | date('d-m-Y h:i') }} | {{ blogpost }}
+    </h2>
+
+    <div class="row">
+        <div class="col-12 col-lg-8">
+            {{ blogpost.content | raw }}
+            <div class="mt-1">- ADMIN -</div>
+        </div>
+    </div>
+{% endblock %}
