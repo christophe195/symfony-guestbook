@@ -1,7 +1,6 @@
 <?php
 namespace App\MessageHandler;
 
-use App\Message\CommentMessage;
 use App\Message\MailMessage;
 use App\Repository\MailRepository;
 use App\Service\MailService;
@@ -11,16 +10,18 @@ use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 class MailMessageHandler
 {
     public function __construct(
-        private mailRepository $mailRepository,
-        private MailService $mailService,
-    ) {
-    }
+        private readonly mailRepository $mailRepository,
+        private readonly MailService    $mailService,
+    ) {}
 
-    public function __invoke(MailMessage $message)
+    /**
+     * @throws \Exception
+     */
+    public function __invoke(MailMessage $message): void
     {
         $mail = $this->mailRepository->find($message->getId());
         if (!$mail) {
-            return;
+            throw new \Exception('Mail with id ' . $message->getId() . ' not found.');
         }
 
         $this->mailService->sendMail($mail);

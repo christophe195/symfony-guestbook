@@ -43,3 +43,35 @@ framework:
                 optimize:
                     from: ready
                     to: published
+        blog_post:
+            type: state_machine
+            audit_trail:
+                enabled: "%kernel.debug%"
+            marking_store:
+                type: 'method'
+                property: 'state'
+            supports:
+                - App\Entity\BlogPost
+            initial_marking: DRAFT
+            places:
+                - DRAFT
+                - REVIEW
+                - APPROVED
+                - REJECTED
+                - PUBLISHED
+            transitions:
+                REVIEW:
+                    from: DRAFT
+                    to: REVIEW
+                APPROVED:
+                    from: REVIEW
+                    to: APPROVED
+                REJECTED:
+                    from: REVIEW
+                    to: REJECTED
+                PUBLISHED:
+                    from: APPROVED
+                    to: PUBLISHED
+                DRAFT:
+                    from: REJECTED
+                    to: DRAFT

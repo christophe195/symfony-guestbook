@@ -4,6 +4,7 @@ namespace App\Controller;
 use App\Entity\Comment;
 use App\Entity\Conference;
 use App\Form\CommentType;
+use App\Repository\BlogPostRepository;
 use App\Repository\CommentRepository;
 use App\Repository\ConferenceRepository;
 use App\Message\CommentMessage;
@@ -24,10 +25,17 @@ class ConferenceController extends AbstractController
     }
 
     #[Route('/', name: 'homepage')]
-    public function index(ConferenceRepository $conferenceRepository): Response
+    public function index(
+        ConferenceRepository $conferenceRepository,
+        BlogPostRepository $blogPostRepository
+    ): Response
     {
+        $conferences = $conferenceRepository->findAll();
+        $blogposts = $blogPostRepository->getNew();
+
         return $this->render('conference/index.html.twig', [
-            'conferences' => $conferenceRepository->findAll(),
+            'conferences' => $conferences,
+            'blogposts' => $blogposts,
         ])->setSharedMaxAge(3600);
     }
 
@@ -81,7 +89,7 @@ class ConferenceController extends AbstractController
     {
         return $this->render('conference/header.html.twig', [
             'conferences' => $conferenceRepository->findAll(),
-        ])->setSharedMaxAge(3600);;
+        ])->setSharedMaxAge(3600);
     }
 
 }

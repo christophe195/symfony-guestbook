@@ -8,7 +8,8 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\Entity(repositoryClass: MailRepository::class)]
 class Mail
 {
-    const COMMENT_NOTIFICATION = 'emails/comment_notification.html.twig';
+    const COMMENT_NOTIFICATION = 'emails/comment/notification.html.twig';
+    const BLOGPOST_CHANGE_STATE_NOTIFICATION = 'emails/blogpost/changen_state_notification.html.twig';
 
     #[ORM\Id]
     #[ORM\GeneratedValue]
