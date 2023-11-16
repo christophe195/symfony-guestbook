@@ -3,15 +3,20 @@ namespace App\Controller;
 
 use App\Entity\Comment;
 use App\Message\CommentMessage;
+use App\Repository\ConferenceRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Bridge\Twig\Mime\NotificationEmail;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Messenger\MessageBusInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpKernel\HttpCache\StoreInterface;
 use Symfony\Component\HttpKernel\KernelInterface;
 use Symfony\Component\Workflow\WorkflowInterface;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Twig\Environment;
 
 #[Route('/admin')]
@@ -21,6 +26,8 @@ class AdminController extends AbstractController
         private Environment $twig,
         private EntityManagerInterface $entityManager,
         private MessageBusInterface $bus,
+        private MailerInterface $mailer,
+        #[Autowire('%admin_email%')] private string $adminEmail,
     ) {
     }
 
@@ -41,7 +48,16 @@ class AdminController extends AbstractController
         $this->entityManager->flush();
 
         if ($accepted) {
-            $this->bus->dispatch(new CommentMessage($comment->getId()));
+            $this->mailer->send((new NotificationEmail())
+                ->subject('Comment accepted')
+                ->htmlTemplate('emails/comment_accepted_notification.html.twig')
+                ->from($this->adminEmail)
+                ->to($comment->getEmail())
+                ->context(['conference' => $comment->getConference()])
+            );
+
+            $reviewUrl = $this->generateUrl('review_comment', ['id' => $comment->getId()], UrlGeneratorInterface::ABSOLUTE_URL);
+            $this->bus->dispatch(new CommentMessage($comment->getId(), $reviewUrl));
         }
 
         return new Response($this->twig->render('admin/review.html.twig', [
