@@ -11,6 +11,7 @@ runtime:
         - apcu
         - blackfire
         - ctype
+        - redis
         - iconv
         - mbstring
         - pdo_pgsql
@@ -40,6 +41,7 @@ mounts:
 
 relationships:
     database: "database:postgresql"
+    redis: "rediscache:redis"
     
 hooks:
     build: |
