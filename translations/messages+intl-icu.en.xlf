@@ -13,8 +13,8 @@
         <source>nb_of_comments</source>
         <target>{count, plural, =0 {There are no comments.} one {There is one comment.} other {There are # comments.}}</target>
       </trans-unit>
-      <trans-unit id="form.name">
-        <source>form.name</source>
+      <trans-unit id="form.Name">
+        <source>form.Name</source>
         <target>Your name</target>
       </trans-unit>
       <trans-unit id="form.Message">
