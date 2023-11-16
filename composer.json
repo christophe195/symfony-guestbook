@@ -7,12 +7,14 @@
         "php": ">=8.1",
         "ext-ctype": "*",
         "ext-iconv": "*",
+        "api-platform/core": "^3.2",
         "blackfireio/blackfire-symfony-meta": "^1.0",
         "doctrine/doctrine-bundle": "^2.10",
         "doctrine/doctrine-migrations-bundle": "^3.2",
         "doctrine/orm": "^2.16",
         "easycorp/easyadmin-bundle": "^4",
         "imagine/imagine": "^1.2",
+        "nelmio/cors-bundle": "^2.3",
         "phpdocumentor/reflection-docblock": "^5.3",
         "phpstan/phpdoc-parser": "^1.24",
         "symfony/asset": "6.2.*",
@@ -49,6 +51,7 @@
         "twig/extra-bundle": "^2.12|^3.0",
         "twig/inky-extra": "^3",
         "twig/intl-extra": "^3",
+        "twig/string-extra": "^3.7",
         "twig/twig": "^2.12|^3.0"
     },
     "config": {

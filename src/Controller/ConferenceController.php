@@ -17,16 +17,24 @@ use Symfony\Component\Notifier\Notification\Notification;
 use Symfony\Component\Notifier\NotifierInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 class ConferenceController extends AbstractController
 {
     public function __construct(
         private EntityManagerInterface $entityManager,
         private MessageBusInterface $bus,
+        private TranslatorInterface $translator,
     ) {
     }
 
-    #[Route('/', name: 'homepage')]
+    #[Route('/')]
+    public function indexNoLocale(): Response
+    {
+       return $this->redirectToRoute('homepage', ['_locale' => 'en']);
+    }
+
+    #[Route('/{_locale<%app.supported_locales%>}/', name: 'homepage')]
     public function index(ConferenceRepository $conferenceRepository): Response
     {
         return $this->render('conference/index.html.twig', [
@@ -34,7 +42,7 @@ class ConferenceController extends AbstractController
         ])->setSharedMaxAge(3600);
     }
 
-    #[Route('/conference/{slug}', name: 'conference')]
+    #[Route('/{_locale<%app.supported_locales%>}/conference/{slug}', name: 'conference')]
     public function show(
         Request $request,
         Conference $conference,
@@ -66,12 +74,12 @@ class ConferenceController extends AbstractController
             $this->entityManager->flush();
             $reviewUrl = $this->generateUrl('review_comment', ['id' => $comment->getId()], UrlGeneratorInterface::ABSOLUTE_URL);
              $this->bus->dispatch(new CommentMessage($comment->getId(), $reviewUrl, $context));
-            $notifier->send(new Notification('Thank you for the feedback; your comment will be posted after moderation.', ['browser']));
+            $notifier->send(new Notification($this->translator->trans('form.comment.submitted'), ['browser']));
             return $this->redirectToRoute('conference', ['slug' => $conference->getSlug()]);
         }
 
         if ($form->isSubmitted()) {
-            $notifier->send(new Notification('Can you check your submission? There are some problems with it.', ['browser']));
+            $notifier->send(new Notification($this->translator->trans('form.comment.invalid'), ['browser']));
         }
 
         $offset = max(0, $request->query->getInt('offset', 0));
@@ -86,7 +94,7 @@ class ConferenceController extends AbstractController
         ]);
     }
 
-    #[Route('/conference_header', name: 'conference_header')]
+    #[Route('/{_locale<%app.supported_locales%>}/conference_header', name: 'conference_header')]
     public function conferenceHeader(ConferenceRepository $conferenceRepository): Response
     {
         return $this->render('conference/header.html.twig', [

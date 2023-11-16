@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
+  <file source-language="en" target-language="nl" datatype="plaintext" original="file.ext">
+    <header>
+      <tool tool-id="symfony" tool-name="Symfony"/>
+    </header>
+    <body>
+      <trans-unit id=">Welcome">
+        <source>welcome</source>
+        <target>Welcome!</target>
+      </trans-unit>
+      <trans-unit id="Conference Guestbook" resname="Conference Guestbook">
+        <source>Conference Guestbook</source>
+        <target>Conferentie gastenboek</target>
+      </trans-unit>
+      <trans-unit id="give your feedback!" resname="Give your feedback!">
+        <source>Give your feedback!</source>
+        <target>Feedback geven!</target>
+      </trans-unit>
+      <trans-unit id="View" resname="View">
+        <source>View</source>
+        <target>Weergeven</target>
+      </trans-unit>
+      <trans-unit id="nb_of_comments" resname="nb_of_comments">
+        <source>nb_of_comments</source>
+        <target>{count, plural, =0 {Er zijn geen opmerkingen.} =1 {Er is 1 opmerking.} other {Er zijn # opmerkingen.}}</target>
+      </trans-unit>
+      <trans-unit id="form.name">
+        <source>form.Name</source>
+        <target>Uw naam</target>
+      </trans-unit>
+      <trans-unit id="form.Message">
+        <source>form.Message</source>
+        <target>Bericht</target>
+      </trans-unit>
+      <trans-unit id="form.email">
+         <source>form.Email</source>
+         <target>Mail adres</target>
+      </trans-unit>
+      <trans-unit id="form.photo">
+        <source>form.Photo</source>
+        <target>Foto</target>
+      </trans-unit>
+      <trans-unit id="form.submit">
+        <source>form.Submit</source>
+        <target>Indienen</target>
+      </trans-unit>
+      <trans-unit id="form.comment.invalid">
+        <source>form.comment.invalid</source>
+        <target>Het formulier is niet volledig in orde.</target>
+      </trans-unit>
+      <trans-unit id="form.comment.submitted">
+        <source>form.comment.submitted</source>
+        <target>Bedankt voor je bericht; Je zal het hier terug vinden na beoordeling.</target>
+      </trans-unit>
+      <trans-unit id="footer.toTop">
+        <source>footer.toTop</source>
+        <target>Terug naar de top.</target>
+      </trans-unit>
+      <trans-unit id="Add_your_own_feedback">
+        <source>Add_your_own_feedback</source>
+        <target>Laat zelf een reactie achter</target>
+      </trans-unit>
+      <trans-unit id="No.comments.posted.yet">
+        <source>No_comments_posted_yet</source>
+        <target>Er zijn nog geen reacties geplaatst.</target>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>
