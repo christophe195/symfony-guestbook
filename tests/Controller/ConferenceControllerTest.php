@@ -19,7 +19,7 @@ class ConferenceControllerTest extends PantherTestCase
     public function testConferencePage()
     {
         $client = static::createClient();
-        $crawler = $client->request('GET', '/');
+        $crawler = $client->request('GET', '/en/');
 
         $this->assertCount(2, $crawler->filter('h4'));
 
@@ -34,7 +34,7 @@ class ConferenceControllerTest extends PantherTestCase
     public function testCommentSubmission()
     {
         $client = static::createClient();
-        $client->request('GET', '/conference/amsterdam-2019');
+        $client->request('GET', '/en/conference/amsterdam-2019');
         $client->submitForm('Submit', [
             'comment[author]' => 'Fabien',
             'comment[text]' => 'Some feedback from an automated functional test',
@@ -49,6 +49,6 @@ class ConferenceControllerTest extends PantherTestCase
         self::getContainer()->get(EntityManagerInterface::class)->flush();
 
         $client->followRedirect();
-        $this->assertSelectorExists('div:contains("There are 2 comments")');
+        $this->assertSelectorExists('div:contains("There is one comment")');
     }
 }
