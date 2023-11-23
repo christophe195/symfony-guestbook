@@ -1,0 +1,73 @@
+version: "3"
+
+services:
+    php:
+        container_name: symfony_test_php
+        build:
+            context: ./php
+            args:
+                TIMEZONE: ${TIMEZONE}
+        volumes:
+            - ../:/var/www/symfony:cached
+            - symfony_app_var:/var/www/symfony/var
+            - symfony_app_vendor:/var/www/symfony/vendor
+        networks:
+            - symfony_app
+    nginx:
+        container_name: symfony_test_nginx
+        build:
+            context: ./nginx
+        volumes:
+            - ../:/var/www/symfony:cached
+            - symfony_app_var:/var/www/symfony/var
+            - symfony_app_vendor:/var/www/symfony/vendor
+        ports:
+            - 80:80
+        networks:
+            - symfony_app
+        env_file:
+            - .env.nginx.local
+    database:
+        container_name: symfony_test_database
+        image: postgres:14-alpine
+        environment:
+            POSTGRES_DB: app
+            POSTGRES_PASSWORD: password
+            POSTGRES_USER: app
+        volumes:
+            - db-data:/var/lib/postgresql/data:rw
+        ports: 
+            - "5432:5432"
+        networks:
+            - symfony_app
+    redis:
+        container_name: symfony_test_redis
+        image: redis:5-alpine
+        networks:
+            - symfony_app
+        ports: 
+            - "6379:6379"
+    rabbitmq:
+        container_name: symfony_test_rabbitmq
+        image: rabbitmq:3-management
+        networks:
+            - symfony_app
+        ports: 
+            - "5672:5672"
+            - "15672:15672"
+    mailcatcher:
+        container_name: symfony_test_mailcatcher
+        restart: on-failure
+        image: dockage/mailcatcher:0.9.0
+        ports:
+            - "1080:1080"
+            - "1025:1025"
+        networks:
+            - symfony_app
+volumes:
+    symfony_app_var:
+    symfony_app_vendor:
+    db-data:
+
+networks:
+    symfony_app:
